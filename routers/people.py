@@ -1,33 +1,24 @@
 from fastapi import FastAPI, HTTPException, APIRouter
 from pydantic import BaseModel
 from typing import List, Dict
+# from services.equipment_manager import manager
+from services.people_manager import people_manager
 
 routers = APIRouter()
 
-class PeopleManager:
-    def __init__(self):
-        self.people = []
-
-    def add_people(self, people: str):
-        self.equipment.append(people)
-        return f"Людину '{people}' додано."
-
-    def show_people(self) -> List[str]:
-        return self.people
-
-manager = PeopleManager()
-
+people_manager.add_people("Alice", "Bob")
 
 class People(BaseModel):
-    equipment: str
+    first_name: str
+    last_name: str
 
 
 @routers.post("/people/")
-def add_people(people: People):
-    return manager.add_people(people.equipment)
+def add_people(person: People):
+    return people_manager.add_people(person.first_name, person.last_name)
 
 @routers.get("/people/")
 def add_people():
-    return manager.show_people()
+    return people_manager.show_people()
 
 
